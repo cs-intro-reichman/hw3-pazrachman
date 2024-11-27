@@ -1,4 +1,4 @@
-// Implements algebraic operations and the square root function without using 
+
 // the Java operations a + b, a - b, a * b, a / b, a % b, and without calling 
 // Math.sqrt. All the functions in this class operate on int values and
 // return int values.
@@ -6,8 +6,6 @@
 public class Algebra {
 	public static void main(String args[]) {
 		// Tests some of the operations
-		int x1 = Integer.parseInt(args[0]);
-		int x2 = Integer.parseInt(args[1]);
 		System.out.println(plus(2, 3)); // 2 + 3
 		System.out.println(minus(7, 2)); // 7 - 2
 		System.out.println(minus(2, 7)); // 2 - 7
@@ -27,65 +25,85 @@ public class Algebra {
 
 	// Returns x1 + x2
 	public static int plus(int x1, int x2) {
-		int y = x1;
-		for (int i = 0; i < x2; i++) // add 1 to the number x2 times
-		{
-			y = x1;
-			y++;
-
+		int result = x1;
+		if (x2 > 0) {
+			for (int i = 0; i < x2; i++) { // x1 = x2 +x1
+				result++;
+			}
+		} else {
+			for (int i = 0; i > x2; i--) { // x1 = x1 + (-x2)
+				result--;
+			}
 		}
-		return y;
+
+		return result;
 	}
 
 	// Returns x1 - x2
 	public static int minus(int x1, int x2) {
-		int y = x1;
-		for (int i = 0; i < x2; i++) {
-			y = x1;
-			y--;
+		int result = x1;
+		if (x2 > 0) {
+			for (int i = 0; i < x2; i++) { // x1 = x1 -x2
+				result--;
+			}
+		} else {
+			for (int i = 0; i > x2; i--) { // x1 = x1 -(-x2)
+				result++;
+			}
 		}
-
-		return y;
+		return result;
 	}
 
 	// Returns x1 * x2
 	public static int times(int x1, int x2) {
-		int times = 0;
-		for (int i = 0; i < x2; i++) {
-			times = plus(x1, times);
-		}
+		int result = 0;
+		if (x2 >= 0) {
+			for (int i = 0; i < x2; i++) {
+				result = plus(result, x1);
+			}
+		} else {
+			for (int i = 0; i > x2; i--) {
+				result = minus(result, x2);
+				result--;
+			}
 
-		return times;
+		}
+		return result;
 	}
 
 	// Returns x^n (for n >= 0)
 	public static int pow(int x, int n) {
-		int pow = 0;
+		int p = 1;
 		for (int i = 0; i < n; i++) {
-			pow = plus(pow, times(x, x)); // pow = pow + times
+			p = times(p, x); // pow = pow * times
 		}
-		return pow;
+		return p;
 	}
 
 	// Returns the integer part of x1 / x2
 	public static int div(int x1, int x2) {
-		int div = 0;
-		while (x1 >= x2) {
-			div = minus(x1, x2);
-			div++;
+		int d = 0;
+		if (x1 == 0)
+			return 0;
+		if (x1 >= x2) {
+			while (x1 >= x2) {
+				x1 = minus(x1, x2);
+				d++;
+			}
+		} else {
+			while (x1 < x2) {
+				x1 = plus(x1, x2);
+				d--;
+			}
 		}
-		return div;
+		return d;
 	}
 
 	// Returns x1 % x2
 	public static int mod(int x1, int x2) {
-		int mod = 0;
-		while (x1 >= x2) {
-			mod = minus(x1, x2);
-
-		}
-
-		return mod;
+		int result;
+		result = minus(x1, times(x2, div(x1, x2)));
+		return result;
 	}
 
 	// Returns the integer part of sqrt(x)
@@ -97,4 +115,5 @@ public class Algebra {
 
 		return sqrt - 1;
 	}
+
 }
