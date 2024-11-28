@@ -62,7 +62,7 @@ public class Anagram {
 		String strTemp = "";
 		for (int i = 0; i < str.length(); i++) {
 			char ch = str.charAt(i);
-			if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
+			if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z' || (str.charAt(i) == ' '))) {
 				strTemp += ch;
 			}
 		}
