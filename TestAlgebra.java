@@ -95,7 +95,7 @@ public class TestAlgebra {
         
         boolean test5 = Algebra.times(100, 0) == 0;
         System.out.println("Test 5 (large number by zero): " + (test5 ? "PASS" : "FAIL"));
-        
+         
         boolean test6 = Algebra.times(1, 1) == 1;
         System.out.println("Test 6 (identity): " + (test6 ? "PASS" : "FAIL"));
 
