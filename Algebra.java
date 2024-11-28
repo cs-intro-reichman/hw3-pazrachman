@@ -13,6 +13,7 @@ public class Algebra {
 		System.out.println(plus(2, times(4, 2))); // 2 + 4 * 2
 		System.out.println(pow(5, 3)); // 5^3
 		System.out.println(pow(3, 5)); // 3^5
+		System.out.println(pow(-2, 2));
 		System.out.println(div(12, 3)); // 12 / 3
 		System.out.println(div(5, 5)); // 5 / 5
 		System.out.println(div(25, 7)); // 25 / 7
@@ -21,6 +22,8 @@ public class Algebra {
 		System.out.println(sqrt(36));
 		System.out.println(sqrt(263169));
 		System.out.println(sqrt(76123));
+		System.out.println(pow(3, 5)); // 3^5
+		System.out.println(pow(-2, 5));
 	}
 
 	// Returns x1 + x2
@@ -56,47 +59,69 @@ public class Algebra {
 
 	// Returns x1 * x2
 	public static int times(int x1, int x2) {
-		int result = 0;
-		if (x2 >= 0) {
-			for (int i = 0; i < x2; i++) {
-				result = plus(result, x1);
-			}
-		} else {
-			for (int i = 0; i > x2; i--) {
-				result = minus(result, x2);
-				result--;
-			}
-
+		int temp1 = x1, temp2 = x2;
+		if (x1 == 0 || x2 == 0) {
+			return 0;
+		}
+		if (x1 < 0) {
+			temp1 = minus(0, x1);
+		}
+		if (x2 < 0) {
+			temp2 = minus(0, x2);
+		}
+		int result = temp1;
+		for (int i = 1; i < temp2; i++) {
+			result = plus(result, temp1);
+		}
+		if (!((x1 > 0 && x2 > 0) || (x1 < 0 && x2 < 0))) {
+			result = minus(0, result);
 		}
 		return result;
 	}
 
 	// Returns x^n (for n >= 0)
 	public static int pow(int x, int n) {
-		int p = 1;
-		for (int i = 0; i < n; i++) {
-			p = times(p, x); // pow = pow * times
+		int resultpow = x;
+		if (n == 0) {
+			return 1;
 		}
-		return p;
+		for (int i = 1; i < n; i++) {
+			resultpow = times(resultpow, x);
+		}
+		return resultpow;
 	}
 
 	// Returns the integer part of x1 / x2
 	public static int div(int x1, int x2) {
-		int d = 0;
-		if (x1 == 0)
+		int result = 1;
+		if (x1 == 0) {
 			return 0;
-		if (x1 >= x2) {
-			while (x1 >= x2) {
-				x1 = minus(x1, x2);
-				d++;
-			}
-		} else {
-			while (x1 < x2) {
-				x1 = plus(x1, x2);
-				d--;
+		}
+		int temp1 = x1, temp2 = x2;
+		if (x1 < 0) {
+			temp1 = minus(0, x1);
+		}
+		if (x2 < 0) {
+			temp2 = minus(0, x2);
+		}
+		for (int i = 1; i < temp1; i++) {
+			if (times(temp2, i) == temp1) {
+				if ((x1 > 0 && x2 > 0) || (x1 < 0 && x2 < 0)) {
+					return i;
+				} else {
+					return minus(0, i);
+				}
+			} else if (times(temp2, i) > temp1) {
+				i--;
+				if ((x1 > 0 && x2 > 0) || (x1 < 0 && x2 < 0)) {
+					return i;
+				} else {
+					return minus(0, i);
+				}
 			}
 		}
-		return d;
+
+		return result;
 	}
 
 	// Returns x1 % x2
